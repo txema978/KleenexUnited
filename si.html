@@ -33,8 +33,17 @@
             font-size: 4em;
             color: #36ff3a;
             text-shadow: 0 0 15px #36ff3a, 0 0 40px #fff;
+            margin-bottom: 1em;
         }
-        /* Confetti container */
+        .celebracion-gif img {
+            margin: 10px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px #fff5;
+            max-width: 110px;
+            max-height: 110px;
+            vertical-align: middle;
+            background: #222;
+        }
         .confetti {
             position: fixed;
             pointer-events: none;
@@ -49,12 +58,19 @@
         <div class="pregunta">¿Ha fichado ya el Athletic a Laporte?</div>
         <div id="countdown">00:00:00</div>
         <div class="respuesta">SI</div>
+        <div class="celebracion-gif">
+            <!-- Gatos GIFs de celebración y algunos divertidos -->
+            <img src="https://gifer.com/es/1XeV.gif" alt="Gato celebrando"/>
+            <img src="https://gifer.com/es/VyJn.gif" alt="Gatito celebrando"/>
+            <img src="https://media.giphy.com/media/l4FGlKikjfHrOAAK8/giphy.gif" alt="Gato brincando"/>
+            <img src="https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif" alt="Gato divertido"/>
+            <img src="https://gifsanimados.de/data/media/209/gato-imagen-animada-0499.gif" alt="Gatito feliz"/>
+            <img src="https://gifsanimados.de/data/media/295/futbol-imagen-animada-0063.gif" alt="Futbol celebración"/>
+        </div>
     </div>
     <canvas class="confetti"></canvas>
     <script>
-        // Confetti Animation JS
-        // Credit: https://github.com/daviiddanger/Tr-Confetti (simplified)
-
+        // Animación confeti JS
         const canvas = document.querySelector('.confetti');
         const ctx = canvas.getContext('2d');
         let W = window.innerWidth;
@@ -98,8 +114,6 @@
                 p.x += Math.sin(p.d);
                 p.tiltAngle += p.tiltAngleIncremental;
                 p.tilt = Math.sin(p.tiltAngle) * 15;
-
-                // Reset particle to top when it falls below screen
                 if(p.y > H){
                     p.x = Math.random()*W;
                     p.y = -10;
@@ -107,8 +121,6 @@
             });
         }
         setInterval(drawConfetti, 30);
-
-        // Resize canvas for responsiveness
         window.addEventListener("resize",()=>{
             W = window.innerWidth;
             H = window.innerHeight;
