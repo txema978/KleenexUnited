@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Kleenex United</title>
+    <style>
+        body {
+            background: #222;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        .container {
+            margin-top: 100px;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.3em;
+        }
+        .pregunta {
+            font-size: 1.3em;
+            margin-bottom: 1em;
+        }
+        #countdown {
+            font-size: 2em;
+            letter-spacing: 2px;
+            margin-bottom: 1.5em;
+        }
+        .respuesta {
+            font-size: 4em;
+            color: #36ff3a;
+            text-shadow: 0 0 15px #36ff3a, 0 0 40px #fff;
+        }
+        /* Confetti container */
+        .confetti {
+            position: fixed;
+            pointer-events: none;
+            left:0; right:0; top:0; bottom:0;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kleenex United</h1>
+        <div class="pregunta">¿Ha fichado ya el Athletic a Laporte?</div>
+        <div id="countdown">00:00:00</div>
+        <div class="respuesta">SI</div>
+    </div>
+    <canvas class="confetti"></canvas>
+    <script>
+        // Confetti Animation JS
+        // Credit: https://github.com/daviiddanger/Tr-Confetti (simplified)
+
+        const canvas = document.querySelector('.confetti');
+        const ctx = canvas.getContext('2d');
+        let W = window.innerWidth;
+        let H = window.innerHeight;
+        canvas.width = W;
+        canvas.height = H;
+
+        let particles = [];
+        let colors = ["#fde132", "#009bde", "#ff6b00", "#fff", "#36ff3a", "#ff3a3a"];
+        let maxParticles = 120;
+
+        for(let i = 0; i < maxParticles; i++){
+            particles.push({
+                x: Math.random() * W,
+                y: Math.random() * H,
+                r: Math.random() * 8 + 2,
+                d: Math.random() * maxParticles,
+                color: colors[Math.floor(Math.random()*colors.length)],
+                tilt: Math.floor(Math.random()*10)-10,
+                tiltAngleIncremental: (Math.random()*0.07)+.05,
+                tiltAngle: 0
+            });
+        }
+
+        function drawConfetti(){
+            ctx.clearRect(0, 0, W, H);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.lineWidth = p.r;
+                ctx.strokeStyle = p.color;
+                ctx.moveTo(p.x + p.tilt + p.r/3, p.y);
+                ctx.lineTo(p.x, p.y + p.tilt + p.r/3);
+                ctx.stroke();
+            });
+            updateConfetti();
+        }
+
+        function updateConfetti(){
+            particles.forEach(p => {
+                p.y += (Math.cos(p.d) + 3 + p.r/2)/2;
+                p.x += Math.sin(p.d);
+                p.tiltAngle += p.tiltAngleIncremental;
+                p.tilt = Math.sin(p.tiltAngle) * 15;
+
+                // Reset particle to top when it falls below screen
+                if(p.y > H){
+                    p.x = Math.random()*W;
+                    p.y = -10;
+                }
+            });
+        }
+        setInterval(drawConfetti, 30);
+
+        // Resize canvas for responsiveness
+        window.addEventListener("resize",()=>{
+            W = window.innerWidth;
+            H = window.innerHeight;
+            canvas.width = W;
+            canvas.height = H;
+        });
+    </script>
+</body>
+</html>
