@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Kleenex United</title>
+    <style>
+        body {
+            background: #222;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin-top: 100px;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.3em;
+        }
+        .pregunta {
+            font-size: 1.3em;
+            margin-bottom: 1em;
+        }
+        #countdown {
+            font-size: 2em;
+            letter-spacing: 2px;
+            margin-bottom: 1.5em;
+        }
+        .respuesta {
+            font-size: 4em;
+            color: #ff3a3a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kleenex United</h1>
+        <div class="pregunta">¿Ha fichado ya el Athletic a Laporte?</div>
+        <div id="countdown"></div>
+        <div class="respuesta">NO</div>
+    </div>
+    <script>
+        function getMidnightSpain() {
+            // Hoy a las 00:00 hora española CET/CEST (depende del día)
+            let now = new Date();
+            // Hoy a medianoche (próxima medianoche = siguiente día a 00:00)
+            let midnight = new Date(now);
+            midnight.setHours(24, 0, 0, 0);
+            // España peninsular: UTC+2 en verano (CEST), UTC+1 en invierno (CET)
+            // Este script asume que el servidor/cliente está en España.
+            return midnight;
+        }
+
+        function startCountdown() {
+            var countdown = document.getElementById('countdown');
+            var target = getMidnightSpain();
+
+            var timer = setInterval(function() {
+                var now = new Date();
+                var distance = target - now;
+                if (distance <= 0) {
+                    clearInterval(timer);
+                    countdown.innerHTML = "¡Ha terminado la cuenta atrás!";
+                    return;
+                }
+                var hours = Math.floor((distance / (1000 * 60 * 60)));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                countdown.innerHTML =
+                    ("0" + hours).slice(-2) + ":" +
+                    ("0" + minutes).slice(-2) + ":" +
+                    ("0" + seconds).slice(-2);
+            }, 1000);
+        }
+
+        window.onload = startCountdown;
+    </script>
+</body>
+</html>
